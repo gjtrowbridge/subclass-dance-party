@@ -4,13 +4,31 @@ var Dancer = function(top, left, timeBetweenSteps){
   this._timeBetweenSteps = timeBetweenSteps;
   this.step();
   this._radius = 10;
-  this._direction = undefined; //each dancer has a direction between 0 and 360 degrees
+  this.speed = 0;
+  this.angle = 0; //each dancer has a direction between 0 and 360 degrees
   this._top = top;
   this._left = left;
+  this._lastWallHit = undefined;
   this.isRoaming = false;
   this.setPosition(top, left);
 };
 
+Dancer.prototype._checkCollision = function() {
+  //Check if top, left, bottom, or right boundaries have been exceeded
+  if ((this._top < 30)&&(this._lastWallHit !== 'top')) {
+     this.angle = (180 - this.angle) % 360;
+     this._lastWallHit = 'top';
+  } else if ((this._left < 0)&&(this._lastWallHit !== 'left')) {
+    this.angle = (360 - this.angle);
+    this._lastWallHit = 'left';
+  } else if ((this._top + this._radius * 2 > $("body").height())&&(this._lastWallHit !== 'bottom')) {
+    this.angle = (180 - this.angle) % 360;
+    this._lastWallHit = 'bottom';
+  } else if ((this._left + this._radius * 2 > $("body").width())&&(this._lastWallHit !== 'right')) {
+    this.angle = (360 - this.angle);
+    this._lastWallHit = 'right';
+  }
+};
 
 Dancer.prototype.roam = function(){
   var topAdjust = Math.floor((Math.random() -0.5) * 10 );
@@ -18,10 +36,18 @@ Dancer.prototype.roam = function(){
   this.setPosition(this._top - topAdjust, this._left - leftAdjust);
 };
 
+Dancer.prototype.move = function(){
+  var deltaTop = Math.floor(-1 * this.speed * Math.sin(Math.toRadians(this.angle * -1 + 90)));
+  var deltaLeft = Math.floor(this.speed * Math.cos(Math.toRadians(this.angle * -1 + 90)));
+  this.setPosition(this._top + deltaTop, this._left + deltaLeft);
+  this._checkCollision();
+};
+
 Dancer.prototype.step = function(){
   if (this.isRoaming){
     this.roam();
   }
+  this.move();
   setTimeout(this.step.bind(this), this._timeBetweenSteps);
 };
 
@@ -29,7 +55,6 @@ Dancer.prototype.setPosition = function(top, left) {
   var styleSettings = {
     top: top,
     left: left,
-    'z-index': -105
   };
 
   //Update the dancer with its new position whenever it

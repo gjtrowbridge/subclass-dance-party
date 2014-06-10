@@ -8,6 +8,7 @@ $(document).ready(function(){
     'http://media.giphy.com/media/9qJvOaj3uaibu/giphy.gif',
     'http://media.giphy.com/media/AeJ16UB03k64w/giphy.gif'
   ];
+  window.isBouncing = false;
 
 // <img src="http://media.giphy.com/media/XWKrUYz1N5J7i/giphy.gif" />
 // <img src="http://media.giphy.com/media/1bffEtmXGc8Ny/giphy.gif" />
@@ -79,6 +80,19 @@ $(document).ready(function(){
       window.dancers[i].isRoaming = window.allRoam;
     }
   });
+  $('.bounceButton').on('click', function(event) {
+    window.isBouncing = !window.isBouncing;
+    for (var i=0; i<window.dancers.length; i++) {
+      if (window.isBouncing) {
+        window.dancers[i].speed = Math.random() * 8 + 5;
+        window.dancers[i].angle = Math.floor(Math.random() * 360);
+      } else {
+        window.dancers[i].speed = 0;
+      }
+    }
+  });
+
+
 });
 
 
