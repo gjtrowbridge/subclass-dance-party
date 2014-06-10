@@ -9,11 +9,13 @@ $(document).ready(function(){
     'http://media.giphy.com/media/AeJ16UB03k64w/giphy.gif'
   ];
   window.isBouncing = false;
+  window.gravity = 1000;
+  window.allowCollisions = true;
 
-// <img src="http://media.giphy.com/media/XWKrUYz1N5J7i/giphy.gif" />
-// <img src="http://media.giphy.com/media/1bffEtmXGc8Ny/giphy.gif" />
-'http://media.giphy.com/media/9qJvOaj3uaibu/giphy.gif',
-'http://media.giphy.com/media/AeJ16UB03k64w/giphy.gif'
+  $( "body" ).mousemove(function( event ) {
+    window.mouseLeft = event.pageX;
+    window.mouseTop = event.pageY;
+  });
 
   $(".addDancerButton").on("click", function(event){
     /* This function sets up the click handlers for the create-dancer
@@ -54,13 +56,9 @@ $(document).ready(function(){
     $('body').append(dancer.$node);
   });
 
-
-
-
-
   $(".lineUpButton").on("click", function(event){
     for (var i = 0; i < window.dancers.length; i++){
-      window.dancers[i].lineUp('left'); //add in lineUp direction pulldown later or something
+      window.dancers[i].lineUp('top'); //add in lineUp direction pulldown later or something
     }
   });
   $('.changeColorsButton').on('click', function(event) {
@@ -84,7 +82,7 @@ $(document).ready(function(){
     window.isBouncing = !window.isBouncing;
     for (var i=0; i<window.dancers.length; i++) {
       if (window.isBouncing) {
-        window.dancers[i].speed = Math.random() * 8 + 5;
+        window.dancers[i].speed = Math.random() * 15 + 10;
         window.dancers[i].angle = Math.floor(Math.random() * 360);
       } else {
         window.dancers[i].speed = 0;
