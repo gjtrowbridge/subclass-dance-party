@@ -14,9 +14,9 @@ var Dancer = function(top, left, timeBetweenSteps){
   this.setPosition(top, left);
 };
 
-Dancer.prototype._adjustSpeedForGravity = function(posTop, posLeft){
+Dancer.prototype._adjustSpeedForGravity = function(posTop, posLeft, gravity){
   //if gravity is not set, return, otherwise adjust speed for grav
-  if (!window.gravity){
+  if (!gravity){
     return;
   }
   //get the x and y distances between center of dancer and gravity position
@@ -24,8 +24,8 @@ Dancer.prototype._adjustSpeedForGravity = function(posTop, posLeft){
   var diffLeft = posLeft - center[0];
   var diffTop = posTop - center[1];
   var diffDirect = Math.pow(diffLeft,2) + Math.pow(diffTop,2);
-  diffLeft = diffLeft * window.gravity / diffDirect;
-  diffTop = diffTop * window.gravity / diffDirect;
+  diffLeft = diffLeft * (gravity / diffDirect );
+  diffTop = diffTop * (gravity / diffDirect );
   var vectors = this._getSpeedVectors();
 
   //add the vectors to get the new speed and angle
@@ -48,6 +48,7 @@ Dancer.prototype._adjustSpeedForGravity = function(posTop, posLeft){
 
   }
   this.speed = Math.sqrt(Math.pow(vectors[1],2) + Math.pow(vectors[0],2));
+  //if (diffDirect < 180){ this.speed = Math.sqrt(this.speed) * 0.08;}
   //rinse and repeat?
 };
 
@@ -82,7 +83,7 @@ Dancer.prototype.roam = function(){
 };
 
 Dancer.prototype.move = function(){
-  this._adjustSpeedForGravity(window.mouseTop, window.mouseLeft);
+  this._adjustSpeedForGravity(window.mouseTop, window.mouseLeft, window.mouseGravity);
   var vectors = this._getSpeedVectors();
   // this._speedDown = Math.floor(-1 * this.speed * Math.sin(Math.toRadians(this.angle * -1 + 90)));
   // this._speedRight = Math.floor(this.speed * Math.cos(Math.toRadians(this.angle * -1 + 90)));

@@ -1,5 +1,6 @@
 $(document).ready(function(){
   window.dancers = [];
+  window.planetDancers = [];
   window.allRoam = false;
   window.gifUrls = [
     'http://media.giphy.com/media/XWKrUYz1N5J7i/giphy.gif',
@@ -9,9 +10,9 @@ $(document).ready(function(){
     'http://media.giphy.com/media/AeJ16UB03k64w/giphy.gif'
   ];
   window.isBouncing = false;
-  window.gravity = 1000;
+  window.mouseGravity = 0;
+  window.gravity = 10;
   window.allowCollisions = true;
-
   $( "body" ).mousemove(function( event ) {
     window.mouseLeft = event.pageX;
     window.mouseTop = event.pageY;
