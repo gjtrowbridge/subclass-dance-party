@@ -1,7 +1,7 @@
 var GrowingDancer = function(top, left, timeBetweenSteps) {
-  Dancer.call(this, top, left, timeBetweenSteps);
-  this._initRadius = 10;
-  this._maxRadius = 200;
+  Dancer.call(this, top, left, timeBetweenSteps * .05);
+  this._initRadius = Math.random() * 20;
+  this._maxRadius = (Math.random() * 300) + 20;
   this._radius = 10;
   this._growFactor = 1.1;
   this._growing = true;

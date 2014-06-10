@@ -1,23 +1,35 @@
+
 var Dancer = function(top, left, timeBetweenSteps){
   this.$node = $('<span class="dancer"></span>');
   this._timeBetweenSteps = timeBetweenSteps;
   this.step();
-
+  this._radius = 10;
+  this._direction = undefined; //each dancer has a direction between 0 and 360 degrees
   this._top = top;
   this._left = left;
-
+  this.isRoaming = false;
   this.setPosition(top, left);
+};
 
+
+Dancer.prototype.roam = function(){
+  var topAdjust = Math.floor((Math.random() -0.5) * 10 );
+  var leftAdjust = Math.floor((Math.random() -0.5) * 10 );
+  this.setPosition(this._top - topAdjust, this._left - leftAdjust);
 };
 
 Dancer.prototype.step = function(){
+  if (this.isRoaming){
+    this.roam();
+  }
   setTimeout(this.step.bind(this), this._timeBetweenSteps);
 };
 
 Dancer.prototype.setPosition = function(top, left) {
   var styleSettings = {
     top: top,
-    left: left
+    left: left,
+    'z-index': -105
   };
 
   //Update the dancer with its new position whenever it
@@ -39,41 +51,19 @@ Dancer.prototype.lineUp = function(where){
     this.setPosition($("body").height() - 20, this._left);
   }
 };
-
-/*
-
-// Creates and returns a new dancer object that can step
-var makeDancer = function(top, left, timeBetweenSteps){
-
-  var dancer = {};
-
-  // use jQuery to create an HTML <span> tag
-  dancer.$node = $('<span class="dancer"></span>');
-
-
-  dancer.step = function(){
-    // the basic dancer doesn't do anything interesting at all on each step,
-    // it just schedules the next step
-    setTimeout(dancer.step, timeBetweenSteps);
+Dancer.prototype.changeZIndex = function() {
+  var styleSettings = {
+    'z-index':Math.floor(Math.random()* -100) - 100
   };
-  dancer.step();
-
-  dancer.setPosition = function(top, left){
-    // Use css top and left properties to position our <span> tag
-    // where it belongs on the page. See http://api.jquery.com/css/
-    //
-    var styleSettings = {
-      top: top,
-      left: left
-    };
-    dancer.$node.css(styleSettings);
-  };
-
-  // now that we have defined the dancer object, we can start setting up important parts of it by calling the methods we wrote
-  // this one sets the position to some random default point within the body
-  dancer.setPosition(top, left);
-
-  return dancer;
+  this.$node.css(styleSettings);
 };
 
-*/
+Dancer.prototype.changeColor = function() {
+  var red = Math.floor(Math.random()*256);
+  var green = Math.floor(Math.random()*256);
+  var blue = Math.floor(Math.random()*256);
+  var styleSettings = {
+    'border-color':'rgb(' + red + ',' + green + ',' + blue + ')'
+  };
+  this.$node.css(styleSettings);
+};

@@ -13,6 +13,11 @@ body, a:link, a:visited, a:active{
   padding:5px 12px;
   float:right;
 }
+
+.leftButton {
+  float:left;
+  padding:5px 12px;
+}
 .topbar{
   height:32px;
   background-color: #555;
@@ -24,4 +29,5 @@ body, a:link, a:visited, a:active{
   border:10px solid red;
   border-radius:10px;
   position:absolute;
+  z-index:-1;
 }

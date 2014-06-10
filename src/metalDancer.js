@@ -1,10 +1,7 @@
-var MetalDancer = function(top, left, timeBetweenSteps, headbangMove) {
+var MetalDancer = function(top, left, timeBetweenSteps) {
   Dancer.call(this, top, left, timeBetweenSteps/10);
   this._movedUp = false;
-  this._headbangMove = headbangMove;
-  if (this._headbangMove === undefined) {
-    this._headbangMove = 5;
-  }
+  this._headbangMove = Math.floor(Math.random()*6) + 3;
 };
 MetalDancer.prototype = Object.create(Dancer.prototype);
 MetalDancer.prototype.constructor = MetalDancer;
