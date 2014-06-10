@@ -1,3 +1,47 @@
+var Dancer = function(top, left, timeBetweenSteps){
+  this.$node = $('<span class="dancer"></span>');
+  this._timeBetweenSteps = timeBetweenSteps;
+  this.step();
+
+  this._top = top;
+  this._left = left;
+
+  this.setPosition(top, left);
+
+};
+
+Dancer.prototype.step = function(){
+  setTimeout(this.step.bind(this), this._timeBetweenSteps);
+};
+
+Dancer.prototype.setPosition = function(top, left) {
+  var styleSettings = {
+    top: top,
+    left: left
+  };
+
+  //Update the dancer with its new position whenever it
+  //moves
+  this._top = top;
+  this._left = left;
+
+  this.$node.css(styleSettings);
+};
+
+Dancer.prototype.lineUp = function(where){
+  if (where === 'left'){
+    this.setPosition(this._top, 20);
+  } else if (where === 'top'){
+    this.setPosition(20, this._left);
+  } else if (where === 'right'){
+    this.setPosition(this._top, $("body").width() - 20);
+  } else{
+    this.setPosition($("body").height() - 20, this._left);
+  }
+};
+
+/*
+
 // Creates and returns a new dancer object that can step
 var makeDancer = function(top, left, timeBetweenSteps){
 
@@ -31,3 +75,5 @@ var makeDancer = function(top, left, timeBetweenSteps){
 
   return dancer;
 };
+
+*/
