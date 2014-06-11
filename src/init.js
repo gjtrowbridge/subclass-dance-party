@@ -2,6 +2,10 @@ $(document).ready(function(){
   window.dancers = [];
   window.planetDancers = [];
   window.allRoam = false;
+  window.isBouncing = false;
+  window.mouseGravity = 0;
+  window.gravity = 10;
+  window.allowCollisions = true;
   window.gifUrls = [
     'http://media.giphy.com/media/XWKrUYz1N5J7i/giphy.gif',
     'http://media.giphy.com/media/1bffEtmXGc8Ny/giphy.gif',
@@ -9,10 +13,8 @@ $(document).ready(function(){
     'http://media.giphy.com/media/9qJvOaj3uaibu/giphy.gif',
     'http://media.giphy.com/media/AeJ16UB03k64w/giphy.gif'
   ];
-  window.isBouncing = false;
-  window.mouseGravity = 0;
-  window.gravity = 10;
-  window.allowCollisions = true;
+
+
   $( "body" ).mousemove(function( event ) {
     window.mouseLeft = event.pageX;
     window.mouseTop = event.pageY;
@@ -27,18 +29,18 @@ $(document).ready(function(){
      * will call the function to make the dancer.
      */
 
-    /* dancerMakerFunctionName is a string which must match
+    /* danceConstructorName is a string which must match
      * one of the dancer maker functions available in global scope.
      * A new object of the given type will be created and added
      * to the stage.
      */
-    var dancerMakerFunctionName = $(this).data("dancer-maker-function-name");
+    var danceConstructorName = $(this).data("dancer-maker-function-name");
 
     // get the maker function for the kind of dancer we're supposed to make
-    var dancerMakerFunction = window[dancerMakerFunctionName];
+    var danceConstructor = window[danceConstructorName];
     var gifUrl;
 
-    if (dancerMakerFunctionName === 'GifDancer') {
+    if (danceConstructorName === 'GifDancer') {
       var index = Math.floor(Math.random() * window.gifUrls.length);
       gifUrl = window.gifUrls.splice(index,1)[0];
       if (gifUrl === undefined) {
@@ -47,7 +49,7 @@ $(document).ready(function(){
     }
 
     // make a dancer with a random position
-    var dancer = new dancerMakerFunction(
+    var dancer = new danceConstructor(
       $("body").height() * Math.random(),
       $("body").width() * Math.random(),
       Math.random() * 1000,
@@ -90,8 +92,6 @@ $(document).ready(function(){
       }
     }
   });
-
-
 });
 
 

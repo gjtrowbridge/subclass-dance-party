@@ -3,15 +3,15 @@ var MetalDancer = function(top, left, timeBetweenSteps) {
   this._movedUp = false;
   this._headbangMove = Math.floor(Math.random()*6) + 3;
 };
+
 MetalDancer.prototype = Object.create(Dancer.prototype);
 MetalDancer.prototype.constructor = MetalDancer;
+
 MetalDancer.prototype._oldStep = Dancer.prototype.step;
 MetalDancer.prototype.step = function() {
   this._oldStep();
   //we want this guy to headbang
   //so that means move up and down quickly
-
-  //This guy won't blink
   if (this._movedUp) {
     //move down
     this.setPosition(this._top - this._headbangMove, this._left);
